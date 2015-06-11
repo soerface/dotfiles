@@ -7,7 +7,7 @@ call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 syntax on
 
-colorscheme custom
+colorscheme default
 
 let mapleader=","
 nmap <leader>sj :set syntax=htmljinja<CR>
