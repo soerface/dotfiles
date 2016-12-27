@@ -1,7 +1,10 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
+let g:netrw_dirhist_cnt =8
 let g:netrw_dirhist_1='/home/soeren/.vim/bundle/snipmate/snippets'
 let g:netrw_dirhist_2='/home/soeren/.vim/bundle/snipmate'
 let g:netrw_dirhist_3='/home/soeren/.vim/bundle'
 let g:netrw_dirhist_4='/home/soeren/.vim'
 let g:netrw_dirhist_5='/home/soeren/.vim/snippets'
+let g:netrw_dirhist_6='/home/soeren/dotfiles/.config/i3'
+let g:netrw_dirhist_7='/home/soeren/dotfiles/.config'
+let g:netrw_dirhist_8='/home/soeren/dotfiles/.config/i3'

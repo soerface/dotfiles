@@ -177,6 +177,19 @@ bindsym $mod+r mode "resize"
 bar {
         status_command i3status -c ~/.config/i3/statusbar.conf
         separator_symbol " "
+
+        colors
+        {
+            background #303030
+            statusline #bdbdbd
+
+            #                  border  bckgrnd font
+            focused_workspace  #303030 #00bb00 #000000
+            active_workspace   #000000 #5f676a #ffffff
+            inactive_workspace #000000 #000000 #bdbdbd
+            urgent_workspace   #000000 #bb0000 #ffffff
+        }
+
 }
 
 bindsym $mod+Mod1+l exec "bash ~/.config/i3/lock.sh"
