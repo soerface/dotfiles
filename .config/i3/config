@@ -38,6 +38,7 @@ floating_modifier Mod1
 
 exec --no-startup-id unity-settings-daemon
 exec --no-startup-id nm-applet
+exec --no-startup-id compton
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
@@ -50,6 +51,9 @@ bindcode 233 exec "bash ~/.config/i3/inc_brightness.sh"
 bindcode 121 exec "amixer -D pulse sset Master toggle"
 bindcode 122 exec "amixer -D pulse sset Master 5%-"
 bindcode 123 exec "amixer -D pulse sset Master 5%+"
+
+# Layout defaults
+for_window [class="(?i)^.*chrom.*$"] layout tabbed
 
 # kill focused window
 bindsym $mod+Shift+q kill
