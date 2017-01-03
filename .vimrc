@@ -74,3 +74,6 @@ augroup BWCCreateDir
     au!
     autocmd BufWritePre * if expand("<afile>")!~#'^\w\+:/' && !isdirectory(expand("%:h")) | execute "silent! !mkdir -p ".shellescape(expand('%:h'), 1) | redraw! | endif
 augroup END
+
+" add own html tags to indent
+:let g:html_indent_inctags = "html,body,head,tbody,li,p"

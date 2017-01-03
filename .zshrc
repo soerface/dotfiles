@@ -2303,6 +2303,7 @@ fi
 
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
+alias activate_conda='export PATH=/home/soeren/anaconda3/bin:$PATH'
 
 # generate alias named "$KERNELVERSION-reboot" so you can use boot with kexec:
 if [[ -x /sbin/kexec ]] && [[ -r /proc/cmdline ]] ; then
