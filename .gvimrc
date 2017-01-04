@@ -5,5 +5,6 @@ set guifont=Monospace\ 9
 "
 "" turn all gui extras except of the icon off
 set guioptions=i
+set linespace=2
 
 colorscheme custom
