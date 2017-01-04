@@ -39,7 +39,7 @@ floating_modifier Mod1
 exec --no-startup-id unity-settings-daemon
 exec --no-startup-id nm-applet
 exec --no-startup-id compton
-exec --no-startup-id --bg-fill ~/Pictures/Wallpapers/screen.png
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/screen.png
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
