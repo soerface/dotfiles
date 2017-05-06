@@ -1,0 +1,16 @@
+[push]
+	default = matching
+[color]
+	ui = true
+[user]
+	email = wegener92@gmail.com
+	name = Soeren Wegener
+[alias]
+	lg = log --oneline --all --graph
+    g = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	s = status -s
+[core]
+	autocrlf = input
+	excludesfile = ~/.gitignore
+[branch]
+	autosetuprebase = always
