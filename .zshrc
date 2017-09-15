@@ -2304,6 +2304,11 @@ fi
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
 alias activate_conda='export PATH=$HOME/anaconda3/bin:$PATH'
+weather() {
+    wget -O - http://wttr.in/"${1}" \
+  | head -n38 \
+  | less -cFKRSX
+}
 
 # generate alias named "$KERNELVERSION-reboot" so you can use boot with kexec:
 if [[ -x /sbin/kexec ]] && [[ -r /proc/cmdline ]] ; then
