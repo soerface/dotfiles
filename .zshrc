@@ -2309,7 +2309,6 @@ weather() {
   | head -n38 \
   | less -cFKRSX
 }
-=======
 
 # generate alias named "$KERNELVERSION-reboot" so you can use boot with kexec:
 if [[ -x /sbin/kexec ]] && [[ -r /proc/cmdline ]] ; then
