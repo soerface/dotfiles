@@ -3298,6 +3298,10 @@ fi
 
 zrclocal
 
+read_csv() {
+    column -s, -t < $1 | less -#2 -N -S
+}
+
 ## genrefcard.pl settings
 
 ### doc strings for external functions from files
