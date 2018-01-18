@@ -2303,7 +2303,12 @@ fi
 
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
-alias activate_conda='export PATH=$HOME/anaconda3/bin:$PATH'
+alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH; export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH'
+weather() {
+    wget -O - http://wttr.in/"${1}" \
+  | head -n38 \
+  | less -cFKRSX
+}
 
 # generate alias named "$KERNELVERSION-reboot" so you can use boot with kexec:
 if [[ -x /sbin/kexec ]] && [[ -r /proc/cmdline ]] ; then
@@ -3292,6 +3297,10 @@ if (( GRMLSMALL_SPECIFIC > 0 )) && isgrmlsmall ; then
 fi
 
 zrclocal
+
+read_csv() {
+    column -s, -t < $1 | less -#2 -N -S
+}
 
 ## genrefcard.pl settings
 
