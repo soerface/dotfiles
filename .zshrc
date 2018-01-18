@@ -3307,3 +3307,7 @@ zrclocal
 # mode: sh
 # End:
 source /etc/bash_completion.d/virtualenvwrapper
+
+cdtmp () {
+    builtin cd "$(mktemp -d)"
+}
