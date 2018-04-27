@@ -559,7 +559,7 @@ fi
 isdarwin && xsource /sw/bin/init.sh
 
 # load our function and completion directories
-for fdir in /usr/share/grml/zsh/completion /usr/share/grml/zsh/functions; do
+for fdir in /usr/share/grml/zsh/completion /usr/share/grml/zsh/functions /home/soeren/.zsh/completion; do
     fpath=( ${fdir} ${fdir}/**/*(/N) ${fpath} )
     if [[ ${fdir} == '/usr/share/grml/zsh/functions' ]] ; then
         for func in ${fdir}/**/[^_]*[^~](N.) ; do
@@ -2303,7 +2303,7 @@ fi
 
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
-alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH; export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH'
+alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH'
 weather() {
     wget -O - http://wttr.in/"${1}" \
   | head -n38 \
@@ -2910,10 +2910,7 @@ mkcd() {
 
 #f5# Create temporary directory and \kbd{cd} to it
 cdt() {
-    local t
-    t=$(mktemp -d)
-    echo "$t"
-    builtin cd "$t"
+    builtin cd "$(mktemp -d)"
 }
 
 #f5# List files which have been accessed within the last {\it n} days, {\it n} defaults to 1
@@ -3321,6 +3318,39 @@ coin() {
 # End:
 source /etc/bash_completion.d/virtualenvwrapper
 
-cdtmp () {
-    builtin cd "$(mktemp -d)"
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
+
+# OPAM configuration
+. /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+OATH_KEY_HOME=/home/soeren/.oath_keys/
+
+function otp {
+  if [ -f $OATH_KEY_HOME/$1 ]
+    then
+      CODE=$(oathtool --totp -b -d 6 `cat $OATH_KEY_HOME/$1`)
+      echo "$CODE" | xclip -selection clipboard
+  else
+    echo "No key specified, or key not found."
+    echo "Available keys:"
+    ls $OATH_KEY_HOME
+  fi
 }
+
+# Uncomment if you use bash, comment for zsh
+# export -f p
+
+
+export PATH=/home/soeren/torch/install/bin:$PATH  # Added automatically by torch-dist
+export LD_LIBRARY_PATH=/home/soeren/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
+export DYLD_LIBRARY_PATH=/home/soeren/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist
+export ANDROID_HOME=/home/soeren/Android/Sdk
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+
+# added by travis gem
+[ -f /home/soeren/.travis/travis.sh ] && source /home/soeren/.travis/travis.sh
+
+# ctrl s should be fwd search ("reverse" of ctrl r)
+# https://stackoverflow.com/a/791800
+stty -ixon
