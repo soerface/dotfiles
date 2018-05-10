@@ -3316,7 +3316,7 @@ coin() {
 # Local variables:
 # mode: sh
 # End:
-source /etc/bash_completion.d/virtualenvwrapper
+# source /etc/bash_completion.d/virtualenvwrapper
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
