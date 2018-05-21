@@ -3300,7 +3300,7 @@ read_csv() {
 }
 
 coin() {
-    curl http://rate.sx/$1
+    curl http://eur.rate.sx/$1
 }
 
 ## genrefcard.pl settings
