@@ -10,6 +10,7 @@ then
 fi
 
 ln -fsn `pwd`/.vim $HOME/.vim
+ln -fsn `pwd`/.config/fontconfig $HOME/.config/fontconfig
 ln -fs `pwd`/.vimrc $HOME/.vimrc
 ln -fs `pwd`/.gvimrc $HOME/.gvimrc
 ln -fs `pwd`/.zshrc $HOME/.zshrc
