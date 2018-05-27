@@ -3354,3 +3354,13 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 # ctrl s should be fwd search ("reverse" of ctrl r)
 # https://stackoverflow.com/a/791800
 stty -ixon
+
+source ~/dotfiles/powerlevel-fonts/*.sh
+
+POWERLEVEL9K_MODE='awesome-fontconfig'
+
+source ~/dotfiles/powerlevel9k/powerlevel9k.zsh-theme
+
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv anaconda vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
+DEFAULT_USER=soeren
