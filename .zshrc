@@ -3301,6 +3301,10 @@ read_csv() {
     column -s, -t < $1 | less -#2 -N -S
 }
 
+read_ccsv() {
+    column -s";" -t < $1 | less -#2 -N -S
+}
+
 coin() {
     curl http://eur.rate.sx/$1
 }
