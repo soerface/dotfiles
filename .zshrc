@@ -3363,7 +3363,7 @@ POWERLEVEL9K_MODE='awesome-fontconfig'
 
 source ~/dotfiles/powerlevel9k/powerlevel9k.zsh-theme
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir rbenv anaconda vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable rbenv anaconda vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
 DEFAULT_USER=soeren
 
