@@ -1,12 +1,21 @@
 #!/bin/bash
 set -e
 
+read -p "Install zsh and set as default shell? [yN] " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    echo "$ sudo apt-get install -y zsh"
+    sudo apt-get install -y zsh
+    chsh -s $(which zsh)
+fi
+
 read -p "Install fonts-powerline? [yN] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    echo "$ sudo apt install fonts-powerline"
-    sudo apt install fonts-powerline
+    echo "$ sudo apt-get install -y fonts-powerline"
+    sudo apt-get install -y fonts-powerline
 fi
 
 ln -fsn `pwd`/.vim $HOME/.vim
