@@ -18,6 +18,7 @@ then
     sudo apt-get install -y fonts-powerline
 fi
 
+mkdir -p $HOME/.config
 ln -fsn `pwd`/.vim $HOME/.vim
 ln -fsn `pwd`/.config/fontconfig $HOME/.config/fontconfig
 ln -fs `pwd`/.vimrc $HOME/.vimrc
