@@ -2306,6 +2306,7 @@ fi
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
 alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH'
+alias gafa_tunnel='echo "http://localhost:4000"; ssh -N manwe.ies -L localhost:4000:gafa.ies.uni-kassel.de:80'
 weather() {
     wget -O - http://wttr.in/"${1}" \
   | head -n38 \
