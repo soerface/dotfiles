@@ -3347,6 +3347,10 @@ function otp {
   fi
 }
 
+function jless {
+    python -mjson.tool "$1" | pygmentize -l json | less -Nr
+}
+
 # Uncomment if you use bash, comment for zsh
 # export -f p
 
