@@ -28,3 +28,5 @@ ln -fs `pwd`/.gitconfig $HOME/.gitconfig
 mkdir -p $HOME/.local/share/fonts/
 ln -fs `pwd`/powerlevel-fonts/*.ttf $HOME/.local/share/fonts/
 fc-cache -fv
+
+echo "You may want to run sudo dpkg-reconfigure locales"
