@@ -729,6 +729,7 @@ grmlcomp() {
 
     ## correction
     # some people don't like the automatic correction - so run 'NOCOR=1 zsh' to deactivate it
+    NOCOR=1;
     if [[ "$NOCOR" -gt 0 ]] ; then
         zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete _files _ignored
         setopt nocorrect
