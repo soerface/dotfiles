@@ -3301,11 +3301,11 @@ fi
 
 zrclocal
 
-read_csv() {
+cless() {
     column -s, -t < $1 | less -#2 -N -S
 }
 
-read_ccsv() {
+ccless() {
     column -s";" -t < $1 | less -#2 -N -S
 }
 
