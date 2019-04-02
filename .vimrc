@@ -49,6 +49,7 @@ autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=4 softtabstop=2
 autocmd FileType xml setlocal shiftwidth=2 tabstop=4 softtabstop=2
 autocmd FileType css setlocal shiftwidth=2 tabstop=4 softtabstop=2
 autocmd FileType rst setlocal shiftwidth=3 tabstop=6 softtabstop=3
+autocmd FileType yaml setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " highlight trailing spaces (not for the line which is currently edited)
 " http://vim.wikia.com/wiki/Highlight_unwanted_spaces
