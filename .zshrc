@@ -3352,6 +3352,15 @@ function jless {
     python -mjson.tool "$1" | pygmentize -l json | less -Nr
 }
 
+function opacity {
+    if [ -z $1 ]
+    then
+        echo "Please pass a percentage"
+    else
+        sh -c "xprop -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY $(printf 0x%x $((0xffffffff * $1 / 100)))"
+    fi
+}
+
 # Uncomment if you use bash, comment for zsh
 # export -f p
 
