@@ -25,6 +25,7 @@ ln -fs `pwd`/.vimrc $HOME/.vimrc
 ln -fs `pwd`/.gvimrc $HOME/.gvimrc
 ln -fs `pwd`/.zshrc $HOME/.zshrc
 ln -fs `pwd`/.gitconfig $HOME/.gitconfig
+ln -fs `pwd`/.zsh $HOME/.zsh
 mkdir -p $HOME/.local/share/fonts/
 ln -fs `pwd`/powerlevel-fonts/*.ttf $HOME/.local/share/fonts/
 fc-cache -fv
