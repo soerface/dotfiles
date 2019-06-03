@@ -2306,7 +2306,7 @@ fi
 
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
-alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH'
+# alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH'
 alias gafa_tunnel='xdg-open http://localhost:4000; ssh -N manwe.ies -L localhost:4000:gafa.ies.uni-kassel.de:80'
 weather() {
     wget -O - http://wttr.in/"${1}" \
@@ -2855,7 +2855,7 @@ alias insecssh='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/nu
 #a2# scp with StrictHostKeyChecking=no \\&\quad and UserKnownHostsFile unset
 alias insecscp='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
 
-alias ipy='activate_conda && ipython'
+alias ipy='ipython'
 
 # work around non utf8 capable software in utf environment via $LANG and luit
 if check_com isutfenv && check_com luit ; then
@@ -3373,6 +3373,21 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 
 # added by travis gem
 [ -f /home/soeren/.travis/travis.sh ] && source /home/soeren/.travis/travis.sh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/soeren/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/soeren/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/soeren/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/soeren/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
 
 # ctrl s should be fwd search ("reverse" of ctrl r)
 # https://stackoverflow.com/a/791800
