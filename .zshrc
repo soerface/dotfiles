@@ -3328,8 +3328,7 @@ coin() {
 # End:
 # source /etc/bash_completion.d/virtualenvwrapper
 
-### Added by the Heroku Toolbelt
-export PATH="/usr/local/heroku/bin:$PATH"
+export PATH="/usr/local/heroku/bin:$HOME/dotfiles/bin:$PATH"
 
 # OPAM configuration
 . /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
