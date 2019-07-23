@@ -3388,6 +3388,8 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+alias open=xdg-open
+
 # ctrl s should be fwd search ("reverse" of ctrl r)
 # https://stackoverflow.com/a/791800
 stty -ixon
