@@ -10,11 +10,11 @@ then
     chsh -s $(which zsh)
 fi
 
-read -p "Install fonts-powerline? [yN] " -n 1 -r
+read -p "Install fonts-powerline and fonts-emojione? [yN] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    echo "$ sudo apt-get install -y fonts-powerline"
+    echo "$ sudo apt-get install -y fonts-powerline fonts-emojione"
     sudo apt-get install -y fonts-powerline
 fi
 
