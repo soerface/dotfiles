@@ -3394,6 +3394,8 @@ alias open=xdg-open
 # https://stackoverflow.com/a/791800
 stty -ixon
 
+export ANSIBLE_NOCOWS=1
+
 source ~/dotfiles/powerlevel-fonts/*.sh
 
 POWERLEVEL9K_MODE='awesome-fontconfig'
