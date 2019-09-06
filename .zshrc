@@ -3389,6 +3389,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 alias open=xdg-open
+alias clip="xclip -selection clipboard"
 
 # ctrl s should be fwd search ("reverse" of ctrl r)
 # https://stackoverflow.com/a/791800
