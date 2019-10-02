@@ -3330,6 +3330,11 @@ coin() {
 
 export PATH="/usr/local/heroku/bin:$HOME/dotfiles/bin:$PATH"
 
+
+alias open=xdg-open
+alias clip="xclip -selection clipboard"
+alias qr="qrencode -t ansiutf8"
+
 # OPAM configuration
 . /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
@@ -3339,7 +3344,7 @@ function otp {
   if [ -f $OATH_KEY_HOME/$1 ]
     then
       CODE=$(oathtool --totp -b -d 6 `cat $OATH_KEY_HOME/$1`)
-      echo "$CODE" | xclip -selection clipboard
+      echo "$CODE" | clip
   else
     echo "No key specified, or key not found."
     echo "Available keys:"
@@ -3387,9 +3392,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-alias open=xdg-open
-alias clip="xclip -selection clipboard"
 
 # ctrl s should be fwd search ("reverse" of ctrl r)
 # https://stackoverflow.com/a/791800
