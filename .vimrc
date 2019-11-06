@@ -13,6 +13,12 @@ let mapleader=","
 nmap <leader>sj :set syntax=htmljinja<CR>
 nmap <leader>sd :set syntax=htmldjango<CR>
 
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+
 set nocompatible
 set colorcolumn=80
 set hlsearch
