@@ -2306,7 +2306,7 @@ fi
 
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
-# alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH'
+alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH'
 alias gafa_tunnel='xdg-open http://localhost:4000; ssh -N manwe.ies -L localhost:4000:gafa.ies.uni-kassel.de:80'
 weather() {
     wget -O - http://wttr.in/"${1}" \
@@ -3312,6 +3312,12 @@ ccless() {
 coin() {
     curl http://eur.rate.sx/$1
 }
+
+# https://stackoverflow.com/questions/5274294/how-can-you-run-a-command-in-bash-over-until-success
+# TODO: does not work yet with commands that have parameters
+# try() {
+#     until $1; do echo "Trying again in $2 seconds"; sleep $2; done;
+# }
 
 ## genrefcard.pl settings
 
