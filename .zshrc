@@ -3353,7 +3353,14 @@ function otp {
 }
 
 function jless {
-    python -mjson.tool "$1" | pygmentize -l json | less -Nr
+    # differentiate between argument and piped input
+    # https://unix.stackexchange.com/a/301432
+    if (( $# == 0 )) ; then
+        json=$(python -mjson.tool < /dev/stdin)
+    else
+        json=$(python -mjson.tool "$1")
+    fi
+    echo "$json" | pygmentize -l json | less -Nr
 }
 
 function opacity {
