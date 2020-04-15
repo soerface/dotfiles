@@ -3358,7 +3358,7 @@ function otp {
   fi
 }
 
-function jless {
+function jecho {
     # differentiate between argument and piped input
     # https://unix.stackexchange.com/a/301432
     if (( $# == 0 )) ; then
@@ -3366,7 +3366,11 @@ function jless {
     else
         json=$(python -mjson.tool "$1")
     fi
-    echo "$json" | pygmentize -l json | less -Nr
+    echo "$json" | pygmentize -l json
+}
+
+function jless {
+    jecho $1 | less -Nr
 }
 
 function opacity {
