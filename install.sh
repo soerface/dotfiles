@@ -15,7 +15,7 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     echo "$ sudo apt-get install -y fonts-powerline fonts-emojione"
-    sudo apt-get install -y fonts-powerline
+    sudo apt-get install -y fonts-powerline fonts-emojione
 fi
 
 mkdir -p $HOME/.config
