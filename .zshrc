@@ -3415,6 +3415,9 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 stty -ixon
 
 export ANSIBLE_NOCOWS=1
+# This is useful if we want to intercept by pythons requests library
+# https://github.com/mitmproxy/mitmproxy/issues/2547#issuecomment-399778481
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
