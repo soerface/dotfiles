@@ -3455,3 +3455,6 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='252'
 POWERLEVEL9K_STATUS_OK_BACKGROUND='235'
 #POWERLEVEL9K_STATUS_OK_FOREGROUND='252'
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /home/soeren/.local/bin/terraform terraform
