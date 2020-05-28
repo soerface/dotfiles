@@ -3340,6 +3340,7 @@ export PATH="/usr/local/heroku/bin:$HOME/dotfiles/bin:$PATH"
 alias open=xdg-open
 alias clip="xclip -selection clipboard"
 alias qr="qrencode -t ansiutf8"
+alias mpvt="mpv --osd-fractions --osd-level=2"
 
 # OPAM configuration
 . /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
