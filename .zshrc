@@ -3373,6 +3373,10 @@ function jless {
     jecho $1 | less -Nr
 }
 
+function wikidata {
+    curl -SsL https://wikidata.org/entity/$1.json | jless
+}
+
 function opacity {
     if [ -z $1 ]
     then
