@@ -3359,8 +3359,19 @@ function otp {
   fi
 }
 
+function jecho {
+    # differentiate between argument and piped input
+    # https://unix.stackexchange.com/a/301432
+    if (( $# == 0 )) ; then
+        json=$(python -mjson.tool < /dev/stdin)
+    else
+        json=$(python -mjson.tool "$1")
+    fi
+    echo "$json" | pygmentize -l json
+}
+
 function jless {
-    python -mjson.tool "$1" | pygmentize -l json | less -Nr
+    jecho $1 | less -Nr
 }
 
 function opacity {
@@ -3405,6 +3416,9 @@ export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
 stty -ixon
 
 export ANSIBLE_NOCOWS=1
+# This is useful if we want to intercept by pythons requests library
+# https://github.com/mitmproxy/mitmproxy/issues/2547#issuecomment-399778481
+export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -3442,3 +3456,6 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='252'
 POWERLEVEL9K_STATUS_OK_BACKGROUND='235'
 #POWERLEVEL9K_STATUS_OK_FOREGROUND='252'
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /home/soeren/.local/bin/terraform terraform
