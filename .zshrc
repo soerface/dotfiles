@@ -3388,17 +3388,27 @@ function opacity {
 }
 
 function dark {
-    gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y-Dark'
-    gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
-    gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y-Dark'
-    gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
+    if lsb_release -i | grep -q 'Linuxmint'; then
+        gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y-Dark'
+        gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
+        gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y-Dark'
+        gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
+    fi
+    if lsb_release -i | grep -q 'Ubuntu'; then
+        gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
+    fi
 }
 
 function light {
-    gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
-    gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y'
-    gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y'
-    gsettings set org.cinnamon.theme name 'Mint-Y'
+    if lsb_release -i | grep -q 'Linuxmint'; then
+        gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
+        gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y'
+        gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y'
+        gsettings set org.cinnamon.theme name 'Mint-Y'
+    fi
+    if lsb_release -i | grep -q 'Ubuntu'; then
+        gsettings set org.gnome.desktop.interface gtk-theme 'Yaru'
+    fi
 }
 
 # Uncomment if you use bash, comment for zsh
