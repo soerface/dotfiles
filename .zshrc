@@ -3387,6 +3387,20 @@ function opacity {
     fi
 }
 
+function dark {
+    gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y-Dark'
+    gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
+    gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y-Dark'
+    gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
+}
+
+function light {
+    gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
+    gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y'
+    gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y'
+    gsettings set org.cinnamon.theme name 'Mint-Y'
+}
+
 # Uncomment if you use bash, comment for zsh
 # export -f p
 
