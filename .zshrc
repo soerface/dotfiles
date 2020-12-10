@@ -1,106 +1,11 @@
+# This file is based on grml.org zshrc, this is the original copyright notice:
+################################################################################
 # Filename:      /etc/zsh/zshrc
 # Purpose:       config file for zsh (z shell)
 # Authors:       grml-team (grml.org), (c) Michael Prokop <mika@grml.org>
 # Bug-Reports:   see http://grml.org/bugs/
 # License:       This file is licensed under the GPL v2.
 ################################################################################
-# This file is sourced only for interactive shells. It
-# should contain commands to set up aliases, functions,
-# options, key bindings, etc.
-#
-# Global Order: zshenv, zprofile, zshrc, zlogin
-################################################################################
-
-# USAGE
-# If you are using this file as your ~/.zshrc file, please use ~/.zshrc.pre
-# and ~/.zshrc.local for your own customisations. The former file is read
-# before ~/.zshrc, the latter is read after it. Also, consider reading the
-# refcard and the reference manual for this setup, both available from:
-#     <http://grml.org/zsh/>
-
-# Contributing:
-# If you want to help to improve grml's zsh setup, clone the grml-etc-core
-# repository from git.grml.org:
-#   git clone git://git.grml.org/grml-etc-core.git
-#
-# Make your changes, commit them; use 'git format-patch' to create a series
-# of patches and send those to the following address via 'git send-email':
-#   grml-etc-core@grml.org
-#
-# Doing so makes sure the right people get your patches for review and
-# possibly inclusion.
-
-# zsh-refcard-tag documentation:
-#   You may notice strange looking comments in this file.
-#   These are there for a purpose. grml's zsh-refcard can now be
-#   automatically generated from the contents of the actual configuration
-#   file. However, we need a little extra information on which comments
-#   and what lines of code to take into account (and for what purpose).
-#
-# Here is what they mean:
-#
-# List of tags (comment types) used:
-#   #a#     Next line contains an important alias, that should
-#           be included in the grml-zsh-refcard.
-#           (placement tag: @@INSERT-aliases@@)
-#   #f#     Next line contains the beginning of an important function.
-#           (placement tag: @@INSERT-functions@@)
-#   #v#     Next line contains an important variable.
-#           (placement tag: @@INSERT-variables@@)
-#   #k#     Next line contains an important keybinding.
-#           (placement tag: @@INSERT-keybindings@@)
-#   #d#     Hashed directories list generation:
-#               start   denotes the start of a list of 'hash -d'
-#                       definitions.
-#               end     denotes its end.
-#           (placement tag: @@INSERT-hasheddirs@@)
-#   #A#     Abbreviation expansion list generation:
-#               start   denotes the beginning of abbreviations.
-#               end     denotes their end.
-#           Lines within this section that end in '#d .*' provide
-#           extra documentation to be included in the refcard.
-#           (placement tag: @@INSERT-abbrev@@)
-#   #m#     This tag allows you to manually generate refcard entries
-#           for code lines that are hard/impossible to parse.
-#               Example:
-#                   #m# k ESC-h Call the run-help function
-#               That would add a refcard entry in the keybindings table
-#               for 'ESC-h' with the given comment.
-#           So the syntax is: #m# <section> <argument> <comment>
-#   #o#     This tag lets you insert entries to the 'other' hash.
-#           Generally, this should not be used. It is there for
-#           things that cannot be done easily in another way.
-#           (placement tag: @@INSERT-other-foobar@@)
-#
-#   All of these tags (except for m and o) take two arguments, the first
-#   within the tag, the other after the tag:
-#
-#   #<tag><section># <comment>
-#
-#   Where <section> is really just a number, which are defined by the
-#   @secmap array on top of 'genrefcard.pl'. The reason for numbers
-#   instead of names is, that for the reader, the tag should not differ
-#   much from a regular comment. For zsh, it is a regular comment indeed.
-#   The numbers have got the following meanings:
-#         0 -> "default"
-#         1 -> "system"
-#         2 -> "user"
-#         3 -> "debian"
-#         4 -> "search"
-#         5 -> "shortcuts"
-#         6 -> "services"
-#
-#   So, the following will add an entry to the 'functions' table in the
-#   'system' section, with a (hopefully) descriptive comment:
-#       #f1# Edit an alias via zle
-#       edalias() {
-#
-#   It will then show up in the @@INSERT-aliases-system@@ replacement tag
-#   that can be found in 'grml-zsh-refcard.tex.in'.
-#   If the section number is omitted, the 'default' section is assumed.
-#   Furthermore, in 'grml-zsh-refcard.tex.in' @@INSERT-aliases@@ is
-#   exactly the same as @@INSERT-aliases-default@@. If you want a list of
-#   *all* aliases, for example, use @@INSERT-aliases-all@@.
 
 export TERM="xterm-256color"
 
@@ -110,53 +15,15 @@ if [[ $ZSH_PROFILE_RC -gt 0 ]] ; then
     zmodload zsh/zprof
 fi
 
-# load .zshrc.pre to give the user the chance to overwrite the defaults
-[[ -r ${ZDOTDIR:-${HOME}}/.zshrc.pre ]] && source ${ZDOTDIR:-${HOME}}/.zshrc.pre
+# ctrl s should be fwd search ("reverse" of ctrl r)
+# https://stackoverflow.com/a/791800
+stty -ixon
 
-# check for version/system
-# check for versions (compatibility reasons)
-is4(){
-    [[ $ZSH_VERSION == <4->* ]] && return 0
-    return 1
-}
-
-is41(){
-    [[ $ZSH_VERSION == 4.<1->* || $ZSH_VERSION == <5->* ]] && return 0
-    return 1
-}
-
-is42(){
-    [[ $ZSH_VERSION == 4.<2->* || $ZSH_VERSION == <5->* ]] && return 0
-    return 1
-}
-
-is425(){
-    [[ $ZSH_VERSION == 4.2.<5->* || $ZSH_VERSION == 4.<3->* || $ZSH_VERSION == <5->* ]] && return 0
-    return 1
-}
-
-is43(){
-    [[ $ZSH_VERSION == 4.<3->* || $ZSH_VERSION == <5->* ]] && return 0
-    return 1
-}
-
-is433(){
-    [[ $ZSH_VERSION == 4.3.<3->* || $ZSH_VERSION == 4.<4->* \
-                                 || $ZSH_VERSION == <5->* ]] && return 0
-    return 1
-}
-
-is437(){
-    [[ $ZSH_VERSION == 4.3.<7->* || $ZSH_VERSION == 4.<4->* \
-                                 || $ZSH_VERSION == <5->* ]] && return 0
-    return 1
-}
-
-is439(){
-    [[ $ZSH_VERSION == 4.3.<9->* || $ZSH_VERSION == 4.<4->* \
-                                 || $ZSH_VERSION == <5->* ]] && return 0
-    return 1
-}
+# powerlevel10k instant prompt
+# https://github.com/romkatv/powerlevel10k#how-do-i-enable-instant-prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 #f1# Checks whether or not you're running grml
 isgrml(){
@@ -276,14 +143,14 @@ zrcautoload is-at-least || is-at-least() { return 1 }
 setopt append_history
 
 # import new commands from the history file also in other zsh-session
-is4 && setopt share_history
+setopt share_history
 
 # save each command's beginning timestamp and the duration to the history file
 setopt extended_history
 
 # If a new command line being added to the history list duplicates an older
 # one, the older command is removed from the list
-is4 && setopt histignorealldups
+setopt histignorealldups
 
 # remove command lines from the history list when the first character on the
 # line is a space
@@ -443,30 +310,6 @@ salias() {
     return 0
 }
 
-# a "print -l ${(u)foo}"-workaround for pre-4.2.0 shells
-# usage: uprint foo
-#   Where foo is the *name* of the parameter you want printed.
-#   Note that foo is no typo; $foo would be wrong here!
-if ! is42 ; then
-    uprint () {
-        emulate -L zsh
-        local -a u
-        local w
-        local parameter=$1
-
-        if [[ -z ${parameter} ]] ; then
-            printf 'usage: uprint <parameter>\n'
-            return 1
-        fi
-
-        for w in ${(P)parameter} ; do
-            [[ -z ${(M)u:#$w} ]] && u=( $u $w )
-        done
-
-        builtin print -l $u
-    }
-fi
-
 # Check if we can read given files and source those we can.
 xsource() {
     if (( ${#argv} < 1 )) ; then
@@ -594,17 +437,14 @@ watch=(notme root)
 typeset -U path cdpath fpath manpath
 
 # Load a few modules
-is4 && \
 for mod in parameter complist deltochar mathfunc ; do
     zmodload -i zsh/${mod} 2>/dev/null || print "Notice: no ${mod} available :("
 done
 
 # autoload zsh modules when they are referenced
-if is4 ; then
-    zmodload -a  zsh/stat    zstat
-    zmodload -a  zsh/zpty    zpty
-    zmodload -ap zsh/mapfile mapfile
-fi
+zmodload -a  zsh/stat    zstat
+zmodload -a  zsh/zpty    zpty
+zmodload -ap zsh/mapfile mapfile
 
 # completion system
 if zrcautoload compinit ; then
@@ -616,7 +456,7 @@ fi
 
 # completion system
 
-# called later (via is4 && grmlcomp)
+# called later (via grmlcomp)
 # note: use 'zstyle' for getting current settings
 #         press ^xh (control-x h) for getting tags in context; ^x? (control-x ?) to run complete_debug with trace output
 grmlcomp() {
@@ -757,13 +597,8 @@ grmlcomp() {
                             zstyle ':completion::complete:*' cache-path $ZSHDIR/cache/
 
     # host completion
-    if is42 ; then
-        [[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
-        [[ -r /etc/hosts ]] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
-    else
-        _ssh_hosts=()
-        _etc_hosts=()
-    fi
+    [[ -r ~/.ssh/known_hosts ]] && _ssh_hosts=(${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[\|]*}%%\ *}%%,*}) || _ssh_hosts=()
+    [[ -r /etc/hosts ]] && : ${(A)_etc_hosts:=${(s: :)${(ps:\t:)${${(f)~~"$(</etc/hosts)"}%%\#*}##[:blank:]#[^[:blank:]]#}}} || _etc_hosts=()
     hosts=(
         $(hostname)
         "$_ssh_hosts[@]"
@@ -1566,16 +1401,10 @@ fi
 chpwd() {
     local -ax my_stack
     my_stack=( ${PWD} ${dirstack} )
-    if is42 ; then
-        builtin print -l ${(u)my_stack} >! ${DIRSTACKFILE}
-    else
-        uprint my_stack >! ${DIRSTACKFILE}
-    fi
+    builtin print -l ${(u)my_stack} >! ${DIRSTACKFILE}
 }
 
 # directory based profiles
-
-if is433 ; then
 
 # chpwd_profiles(): Directory Profiles, Quickstart:
 #
@@ -1612,32 +1441,7 @@ function chpwd_profiles() {
 
 chpwd_functions=( ${chpwd_functions} chpwd_profiles )
 
-fi # is433
-
 # Prompt setup for grml:
-
-# set colors for use in prompts (modern zshs allow for the use of %F{red}foo%f
-# in prompts to get a red "foo" embedded, but it's good to keep these for
-# backwards compatibility).
-if zrcautoload colors && colors 2>/dev/null ; then
-    BLUE="%{${fg[blue]}%}"
-    RED="%{${fg_bold[red]}%}"
-    GREEN="%{${fg[green]}%}"
-    CYAN="%{${fg[cyan]}%}"
-    MAGENTA="%{${fg[magenta]}%}"
-    YELLOW="%{${fg[yellow]}%}"
-    WHITE="%{${fg[white]}%}"
-    NO_COLOR="%{${reset_color}%}"
-else
-    BLUE=$'%{\e[1;34m%}'
-    RED=$'%{\e[1;31m%}'
-    GREEN=$'%{\e[1;32m%}'
-    CYAN=$'%{\e[1;36m%}'
-    WHITE=$'%{\e[1;37m%}'
-    MAGENTA=$'%{\e[1;35m%}'
-    YELLOW=$'%{\e[1;33m%}'
-    NO_COLOR=$'%{\e[0m%}'
-fi
 
 # First, the easy ones: PS2..4:
 
@@ -1649,536 +1453,8 @@ PS3='?# '
 # the execution trace prompt (setopt xtrace). default: '+%N:%i>'
 PS4='+%N:%i:%_> '
 
-# Some additional features to use with our prompt:
-#
-#    - battery status
-#    - debian_chroot
-#    - vcs_info setup and version specific fixes
-
-# display battery status on right side of prompt via running 'BATTERY=1 zsh'
-if [[ $BATTERY -gt 0 ]] ; then
-    if ! check_com -c acpi ; then
-        BATTERY=0
-    fi
-fi
-
-battery() {
-if [[ $BATTERY -gt 0 ]] ; then
-    PERCENT="${${"$(acpi 2>/dev/null)"}/(#b)[[:space:]]#Battery <->: [^0-9]##, (<->)%*/${match[1]}}"
-    if [[ -z "$PERCENT" ]] ; then
-        PERCENT='acpi not present'
-    else
-        if [[ "$PERCENT" -lt 20 ]] ; then
-            PERCENT="warning: ${PERCENT}%%"
-        else
-            PERCENT="${PERCENT}%%"
-        fi
-    fi
-fi
-}
-
-# set variable debian_chroot if running in a chroot with /etc/debian_chroot
-if [[ -z "$debian_chroot" ]] && [[ -r /etc/debian_chroot ]] ; then
-    debian_chroot=$(</etc/debian_chroot)
-fi
-
-# gather version control information for inclusion in a prompt
-
-if zrcautoload vcs_info; then
-    # `vcs_info' in zsh versions 4.3.10 and below have a broken `_realpath'
-    # function, which can cause a lot of trouble with our directory-based
-    # profiles. So:
-    if [[ ${ZSH_VERSION} == 4.3.<-10> ]] ; then
-        function VCS_INFO_realpath () {
-            setopt localoptions NO_shwordsplit chaselinks
-            ( builtin cd -q $1 2> /dev/null && pwd; )
-        }
-    fi
-
-    zstyle ':vcs_info:*' max-exports 2
-
-    if [[ -o restricted ]]; then
-        zstyle ':vcs_info:*' enable NONE
-    fi
-fi
-
-# Change vcs_info formats for the grml prompt. The 2nd format sets up
-# $vcs_info_msg_1_ to contain "zsh: repo-name" used to set our screen title.
-# TODO: The included vcs_info() version still uses $VCS_INFO_message_N_.
-#       That needs to be the use of $VCS_INFO_message_N_ needs to be changed
-#       to $vcs_info_msg_N_ as soon as we use the included version.
-if [[ "$TERM" == dumb ]] ; then
-    zstyle ':vcs_info:*' actionformats "(%s%)-[%b|%a] " "zsh: %r"
-    zstyle ':vcs_info:*' formats       "(%s%)-[%b] "    "zsh: %r"
-else
-    # these are the same, just with a lot of colors:
-    zstyle ':vcs_info:*' actionformats "${MAGENTA}(${NO_COLOR}%s${MAGENTA})${YELLOW}-${MAGENTA}[${GREEN}%b${YELLOW}|${RED}%a${MAGENTA}]${NO_COLOR} " \
-                                       "zsh: %r"
-    zstyle ':vcs_info:*' formats       "${MAGENTA}(${NO_COLOR}%s${MAGENTA})${YELLOW}-${MAGENTA}[${GREEN}%b${MAGENTA}]${NO_COLOR}%} " \
-                                       "zsh: %r"
-    zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat "%b${RED}:${YELLOW}%r"
-fi
-
-# Now for the fun part: The grml prompt themes in `promptsys' mode of operation
-
-# This actually defines three prompts:
-#
-#    - grml
-#    - grml-large
-#    - grml-chroot
-#
-# They all share the same code and only differ with respect to which items they
-# contain. The main source of documentation is the `prompt_grml_help' function
-# below, which gets called when the user does this: prompt -h grml
-
-function prompt_grml_help () {
-    cat <<__EOF0__
-  prompt grml
-
-    This is the prompt as used by the grml-live system <http://grml.org>. It is
-    a rather simple one-line prompt, that by default looks something like this:
-
-        <user>@<host> <current-working-directory>[ <vcs_info-data>]%
-
-    The prompt itself integrates with zsh's prompt themes system (as you are
-    witnessing right now) and is configurable to a certain degree. In
-    particular, these aspects are customisable:
-
-        - The items used in the prompt (e.g. you can remove \`user' from
-          the list of activated items, which will cause the user name to
-          be omitted from the prompt string).
-
-        - The attributes used with the items are customisable via strings
-          used before and after the actual item.
-
-    The available items are: at, battery, change-root, date, grml-chroot,
-    history, host, jobs, newline, path, percent, rc, rc-always, sad-smiley,
-    shell-level, time, user, vcs
-
-    The actual configuration is done via zsh's \`zstyle' mechanism. The
-    context, that is used while looking up styles is:
-
-        ':prompt:grml:<left-or-right>:<subcontext>'
-
-    Here <left-or-right> is either \`left' or \`right', signifying whether the
-    style should affect the left or the right prompt. <subcontext> is either
-    \`setup' or 'items:<item>', where \`<item>' is one of the available items.
-
-    The styles:
-
-        - use-rprompt (boolean): If \`true' (the default), print a sad smiley
-          in $RPROMPT if the last command a returned non-successful error code.
-          (This in only valid if <left-or-right> is "right"; ignored otherwise)
-
-        - items (list): The list of items used in the prompt. If \`vcs' is
-          present in the list, the theme's code invokes \`vcs_info'
-          accordingly. Default (left): rc change-root user at host path vcs
-          percent; Default (right): sad-smiley
-
-    Available styles in 'items:<item>' are: pre, post. These are strings that
-    are inserted before (pre) and after (post) the item in question. Thus, the
-    following would cause the user name to be printed in red instead of the
-    default blue:
-
-        zstyle ':prompt:grml:*:items:user' pre '%F{red}'
-
-    Note, that the \`post' style may remain at its default value, because its
-    default value is '%f', which turns the foreground text attribute off (which
-    is exactly, what is still required with the new \`pre' value).
-__EOF0__
-}
-
-function prompt_grml-chroot_help () {
-    cat <<__EOF0__
-  prompt grml-chroot
-
-    This is a variation of the grml prompt, see: prompt -h grml
-
-    The main difference is the default value of the \`items' style. The rest
-    behaves exactly the same. Here are the defaults for \`grml-chroot':
-
-        - left: grml-chroot user at host path percent
-        - right: (empty list)
-__EOF0__
-}
-
-function prompt_grml-large_help () {
-    cat <<__EOF0__
-  prompt grml-large
-
-    This is a variation of the grml prompt, see: prompt -h grml
-
-    The main difference is the default value of the \`items' style. In
-    particular, this theme uses _two_ lines instead of one with the plain
-    \`grml' theme. The rest behaves exactly the same. Here are the defaults
-    for \`grml-large':
-
-        - left: rc jobs history shell-level change-root time date newline user
-                at host path vcs percent
-        - right: sad-smiley
-__EOF0__
-}
-
-function grml_prompt_setup () {
-    emulate -L zsh
-    autoload -Uz vcs_info
-    autoload -Uz add-zsh-hook
-    add-zsh-hook precmd prompt_$1_precmd
-}
-
-function prompt_grml_setup () {
-    grml_prompt_setup grml
-}
-
-function prompt_grml-chroot_setup () {
-    grml_prompt_setup grml-chroot
-}
-
-function prompt_grml-large_setup () {
-    grml_prompt_setup grml-large
-}
-
-# These maps define default tokens and pre-/post-decoration for items to be
-# used within the themes. All defaults may be customised in a context sensitive
-# matter by using zsh's `zstyle' mechanism.
-typeset -gA grml_prompt_pre_default \
-            grml_prompt_post_default \
-            grml_prompt_token_default \
-            grml_prompt_token_function
-
-grml_prompt_pre_default=(
-    at                ''
-    battery           ' '
-    change-root       ''
-    date              '%F{blue}'
-    grml-chroot       '%F{red}'
-    history           '%F{green}'
-    host              ''
-    jobs              '%F{cyan}'
-    newline           ''
-    path              '%B'
-    percent           ''
-    rc                '%B%F{red}'
-    rc-always         ''
-    sad-smiley        ''
-    shell-level       '%F{red}'
-    time              '%F{blue}'
-    user              '%B%F{blue}'
-    vcs               ''
-)
-
-grml_prompt_post_default=(
-    at                ''
-    battery           ''
-    change-root       ''
-    date              '%f'
-    grml-chroot       '%f '
-    history           '%f'
-    host              ''
-    jobs              '%f'
-    newline           ''
-    path              '%b'
-    percent           ''
-    rc                '%f%b'
-    rc-always         ''
-    sad-smiley        ''
-    shell-level       '%f'
-    time              '%f'
-    user              '%f%b'
-    vcs               ''
-)
-
-grml_prompt_token_default=(
-    at                '@'
-    battery           'PERCENT'
-    change-root       'debian_chroot'
-    date              '%D{%Y-%m-%d}'
-    grml-chroot       'GRML_CHROOT'
-    history           '{history#%!} '
-    host              '%m '
-    jobs              '[%j running job(s)] '
-    newline           $'\n'
-    path              '%40<..<%~%<< '
-    percent           '%# '
-    rc                '%(?..%? )'
-    rc-always         '%?'
-    sad-smiley        '%(?..:()'
-    shell-level       '%(3L.+ .)'
-    time              '%D{%H:%M:%S} '
-    user              '%n'
-    vcs               '0'
-)
-
-function GRML_theme_add_token_usage () {
-    cat <<__EOF__
-  Usage: grml_theme_add_token <name> [-f|-i] <token/function> [<pre> <post>]
-
-    <name> is the name for the newly added token. If the \`-f' or \`-i' options
-    are used, <token/function> is the name of the function (see below for
-    details). Otherwise it is the literal token string to be used. <pre> and
-    <post> are optional.
-
-  Options:
-
-    -f <function>   Use a function named \`<function>' each time the token
-                    is to be expanded.
-
-    -i <function>   Use a function named \`<function>' to initialise the
-                    value of the token _once_ at runtime.
-
-    The functions are called with one argument: the token's new name. The
-    return value is expected in the \$REPLY parameter. The use of these
-    options is mutually exclusive.
-
-  Example:
-
-    To add a new token \`day' that expands to the current weekday in the
-    current locale in green foreground colour, use this:
-
-      grml_theme_add_token day '%D{%A}' '%F{green}' '%f'
-
-    Another example would be support for \$VIRTUAL_ENV:
-
-      function virtual_env_prompt () {
-        REPLY=\${VIRTUAL_ENV+\${VIRTUAL_ENV:t} }
-      }
-      grml_theme_add_token virtual-env -f virtual_env_prompt
-
-    After that, you will be able to use a changed \`items' style to
-    assemble your prompt.
-__EOF__
-}
-
-function grml_theme_add_token () {
-    emulate -L zsh
-    local name token pre post
-    local -i init funcall
-
-    if (( ARGC == 0 )); then
-        GRML_theme_add_token_usage
-        return 0
-    fi
-
-    init=0
-    funcall=0
-    pre=''
-    post=''
-    name=$1
-    shift
-    if [[ $1 == '-f' ]]; then
-        funcall=1
-        shift
-    elif [[ $1 == '-i' ]]; then
-        init=1
-        shift
-    fi
-
-    if (( ARGC == 0 )); then
-        printf '
-grml_theme_add_token: No token-string/function-name provided!\n\n'
-        GRML_theme_add_token_usage
-        return 1
-    fi
-    token=$1
-    shift
-    if (( ARGC != 0 && ARGC != 2 )); then
-        printf '
-grml_theme_add_token: <pre> and <post> need to by specified _both_!\n\n'
-        GRML_theme_add_token_usage
-        return 1
-    fi
-    if (( ARGC )); then
-        pre=$1
-        post=$2
-        shift 2
-    fi
-
-    if (( ${+grml_prompt_token_default[$name]} )); then
-        printf '
-grml_theme_add_token: Token `%s'\'' exists! Giving up!\n\n' $name
-        GRML_theme_add_token_usage
-        return 2
-    fi
-    if (( init )); then
-        $token $name
-        token=$REPLY
-    fi
-    grml_prompt_pre_default[$name]=$pre
-    grml_prompt_post_default[$name]=$post
-    if (( funcall )); then
-        grml_prompt_token_function[$name]=$token
-        grml_prompt_token_default[$name]=23
-    else
-        grml_prompt_token_default[$name]=$token
-    fi
-}
-
-function grml_typeset_and_wrap () {
-    emulate -L zsh
-    local target="$1"
-    local new="$2"
-    local left="$3"
-    local right="$4"
-
-    if (( ${+parameters[$new]} )); then
-        typeset -g "${target}=${(P)target}${left}${(P)new}${right}"
-    fi
-}
-
-function grml_prompt_addto () {
-    emulate -L zsh
-    local target="$1"
-    local lr it apre apost new v
-    local -a items
-    shift
-
-    [[ $target == PS1 ]] && lr=left || lr=right
-    zstyle -a ":prompt:${grmltheme}:${lr}:setup" items items || items=( "$@" )
-    typeset -g "${target}="
-    for it in "${items[@]}"; do
-        zstyle -s ":prompt:${grmltheme}:${lr}:items:$it" pre apre \
-            || apre=${grml_prompt_pre_default[$it]}
-        zstyle -s ":prompt:${grmltheme}:${lr}:items:$it" post apost \
-            || apost=${grml_prompt_post_default[$it]}
-        zstyle -s ":prompt:${grmltheme}:${lr}:items:$it" token new \
-            || new=${grml_prompt_token_default[$it]}
-        typeset -g "${target}=${(P)target}${apre}"
-        if (( ${+grml_prompt_token_function[$it]} )); then
-            ${grml_prompt_token_function[$it]} $it
-            typeset -g "${target}=${(P)target}${REPLY}"
-        else
-            case $it in
-            battery)
-                grml_typeset_and_wrap $target $new '' ''
-                ;;
-            change-root)
-                grml_typeset_and_wrap $target $new '(' ')'
-                ;;
-            grml-chroot)
-                if [[ -n ${(P)new} ]]; then
-                    typeset -g "${target}=${(P)target}(CHROOT)"
-                fi
-                ;;
-            vcs)
-                v="vcs_info_msg_${new}_"
-                if (( ! vcscalled )); then
-                    vcs_info
-                    vcscalled=1
-                fi
-                if (( ${+parameters[$v]} )) && [[ -n "${(P)v}" ]]; then
-                    typeset -g "${target}=${(P)target}${(P)v}"
-                fi
-                ;;
-            *) typeset -g "${target}=${(P)target}${new}" ;;
-            esac
-        fi
-        typeset -g "${target}=${(P)target}${apost}"
-    done
-}
-
-function prompt_grml_precmd () {
-    emulate -L zsh
-    local grmltheme=grml
-    local -a left_items right_items
-    left_items=(rc change-root user at host path vcs percent)
-    right_items=(sad-smiley)
-
-    prompt_grml_precmd_worker
-}
-
-function prompt_grml-chroot_precmd () {
-    emulate -L zsh
-    local grmltheme=grml-chroot
-    local -a left_items right_items
-    left_items=(grml-chroot user at host path percent)
-    right_items=()
-
-    prompt_grml_precmd_worker
-}
-
-function prompt_grml-large_precmd () {
-    emulate -L zsh
-    local grmltheme=grml-large
-    local -a left_items right_items
-    left_items=(rc jobs history shell-level change-root time date newline
-                user at host path vcs percent)
-    right_items=(sad-smiley)
-
-    prompt_grml_precmd_worker
-}
-
-function prompt_grml_precmd_worker () {
-    emulate -L zsh
-    local -i vcscalled=0
-
-    grml_prompt_addto PS1 "${left_items[@]}"
-    if zstyle -T ":prompt:${grmltheme}:right:setup" use-rprompt; then
-        grml_prompt_addto RPS1 "${right_items[@]}"
-    fi
-}
-
-grml_prompt_fallback() {
-    setopt prompt_subst
-    precmd() {
-        (( ${+functions[vcs_info]} )) && vcs_info
-    }
-
-    p0="${RED}%(?..%? )${WHITE}${debian_chroot:+($debian_chroot)}"
-    p1="${BLUE}%n${NO_COLOR}@%m %40<...<%B%~%b%<< "'${vcs_info_msg_0_}'"%# "
-    if (( EUID == 0 )); then
-        PROMPT="${BLUE}${p0}${RED}${p1}"
-    else
-        PROMPT="${RED}${p0}${BLUE}${p1}"
-    fi
-    unset p0 p1
-}
-
-if zrcautoload promptinit && promptinit 2>/dev/null ; then
-    # Since we define the required functions in here and not in files in
-    # $fpath, we need to stick the theme's name into `$prompt_themes'
-    # ourselves, since promptinit does not pick them up otherwise.
-    prompt_themes+=( grml grml-chroot grml-large )
-    # Also, keep the array sorted...
-    prompt_themes=( "${(@on)prompt_themes}" )
-else
-    print 'Notice: no promptinit available :('
-    grml_prompt_fallback
-fi
-
-if is437; then
-    # The prompt themes use modern features of zsh, that require at least
-    # version 4.3.7 of the shell. Use the fallback otherwise.
-    if [[ $BATTERY -gt 0 ]]; then
-        zstyle ':prompt:grml:right:setup' items sad-smiley battery
-        add-zsh-hook precmd battery
-    fi
-    if [[ "$TERM" == dumb ]] ; then
-        zstyle ":prompt:grml(|-large|-chroot):*:items:grml-chroot" pre ''
-        zstyle ":prompt:grml(|-large|-chroot):*:items:grml-chroot" post ' '
-        for i in rc user path jobs history date time shell-level; do
-            zstyle ":prompt:grml(|-large|-chroot):*:items:$i" pre ''
-            zstyle ":prompt:grml(|-large|-chroot):*:items:$i" post ''
-        done
-        unset i
-        zstyle ':prompt:grml(|-large|-chroot):right:setup' use-rprompt false
-    elif (( EUID == 0 )); then
-        zstyle ':prompt:grml(|-large|-chroot):*:items:user' pre '%B%F{red}'
-    fi
-
-    # Finally enable one of the prompts.
-    if [[ -n $GRML_CHROOT ]]; then
-        prompt grml-chroot
-    elif [[ $GRMLPROMPT -gt 0 ]]; then
-        prompt grml-large
-    else
-        prompt grml
-    fi
-else
-    grml_prompt_fallback
-fi
 
 # Terminal-title wizardry
-
 function ESC_print () {
     info_print $'\ek' $'\e\\' "$@"
 }
@@ -2306,8 +1582,6 @@ fi
 
 alias mdstat='cat /proc/mdstat'
 alias ...='cd ../../'
-alias activate_conda='export PATH=$HOME/anaconda3/bin:/usr/local/cuda/bin/:$PATH'
-alias gafa_tunnel='xdg-open http://localhost:4000; ssh -N manwe.ies -L localhost:4000:gafa.ies.uni-kassel.de:80'
 weather() {
     wget -O - http://wttr.in/"${1}" \
   | head -n38 \
@@ -2348,73 +1622,6 @@ if ! check_com asc &>/dev/null ; then
   asc() { autossh -t "$@" 'screen -RdU' }
   compdef asc=ssh
 fi
-
-#f1# Hints for the use of zsh on grml
-zsh-help() {
-    print "$bg[white]$fg[black]
-zsh-help - hints for use of zsh on grml
-=======================================$reset_color"
-
-    print '
-Main configuration of zsh happens in /etc/zsh/zshrc.
-That file is part of the package grml-etc-core, if you want to
-use them on a non-grml-system just get the tar.gz from
-http://deb.grml.org/ or (preferably) get it from the git repository:
-
-  http://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
-
-This version of grml'\''s zsh setup does not use skel/.zshrc anymore.
-The file is still there, but it is empty for backwards compatibility.
-
-For your own changes use these two files:
-    $HOME/.zshrc.pre
-    $HOME/.zshrc.local
-
-The former is sourced very early in our zshrc, the latter is sourced
-very lately.
-
-System wide configuration without touching configuration files of grml
-can take place in /etc/zsh/zshrc.local.
-
-For information regarding zsh start at http://grml.org/zsh/
-
-Take a look at grml'\''s zsh refcard:
-% xpdf =(zcat /usr/share/doc/grml-docs/zsh/grml-zsh-refcard.pdf.gz)
-
-Check out the main zsh refcard:
-% '$BROWSER' http://www.bash2zsh.com/zsh_refcard/refcard.pdf
-
-And of course visit the zsh-lovers:
-% man zsh-lovers
-
-You can adjust some options through environment variables when
-invoking zsh without having to edit configuration files.
-Basically meant for bash users who are not used to the power of
-the zsh yet. :)
-
-  "NOCOR=1    zsh" => deactivate automatic correction
-  "NOMENU=1   zsh" => do not use auto menu completion
-                      (note: use ctrl-d for completion instead!)
-  "NOPRECMD=1 zsh" => disable the precmd + preexec commands (set GNU screen title)
-  "NOTITLE=1  zsh" => disable setting the title of xterms without disabling
-                      preexec() and precmd() completely
-  "BATTERY=1  zsh" => activate battery status (via acpi) on right side of prompt
-  "COMMAND_NOT_FOUND=1 zsh"
-                   => Enable a handler if an external command was not found
-                      The command called in the handler can be altered by setting
-                      the GRML_ZSH_CNF_HANDLER variable, the default is:
-                      "/usr/share/command-not-found/command-not-found"
-
-A value greater than 0 is enables a feature; a value equal to zero
-disables it. If you like one or the other of these settings, you can
-add them to ~/.zshrc.pre to ensure they are set when sourcing grml'\''s
-zshrc.'
-
-    print "
-$bg[white]$fg[black]
-Please report wishes + bugs to the grml-team: http://grml.org/bugs/
-Enjoy your grml system with the zsh!$reset_color"
-}
 
 # debian stuff
 if [[ -r /etc/debian_version ]] ; then
@@ -2458,24 +1665,9 @@ if check_com -c dpkg-query ; then
     alias debs-by-size="dpkg-query -Wf 'x \${Installed-Size} \${Package} \${Status}\n' | sed -ne '/^x  /d' -e '/^x \(.*\) install ok installed$/s//\1/p' | sort -nr"
 fi
 
-# if cdrecord is a symlink (to wodim) or isn't present at all warn:
-if [[ -L /usr/bin/cdrecord ]] || ! check_com -c cdrecord; then
-    if check_com -c wodim; then
-        cdrecord() {
-            cat <<EOMESS
-cdrecord is not provided under its original name by Debian anymore.
-See #377109 in the BTS of Debian for more details.
-
-Please use the wodim binary instead
-EOMESS
-            return 1
-        }
-    fi
-fi
-
 # Use hard limits, except for a smaller stack and no core dumps
 unlimit
-is425 && limit stack 8192
+limit stack 8192
 isgrmlcd && limit core 0 # important for a live-cd-system
 limit -s
 
@@ -2503,11 +1695,11 @@ graphic chipset."
 
 # now run the functions
 isgrml && checkhome
-is4    && isgrml    && grmlstuff
-is4    && grmlcomp
+isgrml && grmlstuff
+grmlcomp
 
 # keephack
-is4 && xsource "/etc/zsh/keephack"
+xsource "/etc/zsh/keephack"
 
 # wonderful idea of using "e" glob qualifier by Peter Stephenson
 # You use it as follows:
@@ -2516,7 +1708,7 @@ is4 && xsource "/etc/zsh/keephack"
 # This lists all the files in the current directory newer than the reference file.
 # You can also specify the reference file inline; note quotes:
 # $ ls -l *(e:'nt ~/.zshenv':)
-is4 && nt() {
+nt() {
     if [[ -n $1 ]] ; then
         local NTREF=${~1}
     fi
@@ -2629,50 +1821,6 @@ edfunc() {
 }
 compdef _functions edfunc
 
-# use it e.g. via 'Restart apache2'
-#m# f6 Start() \kbd{/etc/init.d/\em{process}}\quad\kbd{start}
-#m# f6 Restart() \kbd{/etc/init.d/\em{process}}\quad\kbd{restart}
-#m# f6 Stop() \kbd{/etc/init.d/\em{process}}\quad\kbd{stop}
-#m# f6 Reload() \kbd{/etc/init.d/\em{process}}\quad\kbd{reload}
-#m# f6 Force-Reload() \kbd{/etc/init.d/\em{process}}\quad\kbd{force-reload}
-#m# f6 Status() \kbd{/etc/init.d/\em{process}}\quad\kbd{status}
-if [[ -d /etc/init.d || -d /etc/service ]] ; then
-    __start_stop() {
-        local action_="${1:l}"  # e.g Start/Stop/Restart
-        local service_="$2"
-        local param_="$3"
-
-        local service_target_="$(readlink /etc/init.d/$service_)"
-        if [[ $service_target_ == "/usr/bin/sv" ]]; then
-            # runit
-            case "${action_}" in
-                start) if [[ ! -e /etc/service/$service_ ]]; then
-                           $SUDO ln -s "/etc/sv/$service_" "/etc/service/"
-                       else
-                           $SUDO "/etc/init.d/$service_" "${action_}" "$param_"
-                       fi ;;
-                # there is no reload in runits sysv emulation
-                reload) $SUDO "/etc/init.d/$service_" "force-reload" "$param_" ;;
-                *) $SUDO "/etc/init.d/$service_" "${action_}" "$param_" ;;
-            esac
-        else
-            # sysvinit
-            $SUDO "/etc/init.d/$service_" "${action_}" "$param_"
-        fi
-    }
-
-    _grmlinitd() {
-        local -a scripts
-        scripts=( /etc/init.d/*(x:t) )
-        _describe "service startup script" scripts
-    }
-
-    for i in Start Restart Stop Force-Reload Reload Status ; do
-        eval "$i() { __start_stop $i \"\$1\" \"\$2\" ; }"
-        compdef _grmlinitd $i
-    done
-fi
-
 #f1# Provides useful information on globbing
 H-Glob() {
     echo -e "
@@ -2727,15 +1875,6 @@ any() {
 }
 
 
-# After resuming from suspend, system is paging heavily, leading to very bad interactivity.
-# taken from $LINUX-KERNELSOURCE/Documentation/power/swsusp.txt
-[[ -r /proc/1/maps ]] && \
-deswap() {
-    print 'Reading /proc/[0-9]*/maps and sending output to /dev/null, this might take a while.'
-    cat $(sed -ne 's:.* /:/:p' /proc/[0-9]*/maps | sort -u | grep -v '^/dev/')  > /dev/null
-    print 'Finished, running "swapoff -a; swapon -a" may also be useful.'
-}
-
 # a wrapper for vim, that deals with title setting
 #   VIM_OPTIONS
 #       set this array to a set of options to vim you always want
@@ -2748,11 +1887,6 @@ if check_com vim; then
         VIM_PLEASE_SET_TITLE='yes' command vim ${VIM_OPTIONS} "$@"
     }
 fi
-
-# make a backup of a file
-bk() {
-    cp -a "$1" "${1}_$(date --iso-8601=seconds)"
-}
 
 ssl_hashes=( sha512 sha256 sha1 md5 )
 
@@ -2788,9 +1922,6 @@ ssl-cert-info() {
     openssl x509 -noout -text -in $1
     ssl-cert-fingerprints $1
 }
-
-# make sure our environment is clean regarding colors
-for color in BLUE RED GREEN CYAN YELLOW MAGENTA WHITE ; unset $color
 
 # "persistent history"
 # just write important commands you always need to ~/.important_commands
@@ -2969,160 +2100,6 @@ trans() {
     esac
 }
 
-# Usage: simple-extract <file>
-# Using option -d deletes the original archive file.
-#f5# Smart archive extractor
-simple-extract() {
-    emulate -L zsh
-    setopt extended_glob noclobber
-    local DELETE_ORIGINAL DECOMP_CMD USES_STDIN USES_STDOUT GZTARGET WGET_CMD
-    local RC=0
-    zparseopts -D -E "d=DELETE_ORIGINAL"
-    for ARCHIVE in "${@}"; do
-        case $ARCHIVE in
-            *(tar.bz2|tbz2|tbz))
-                DECOMP_CMD="tar -xvjf -"
-                USES_STDIN=true
-                USES_STDOUT=false
-                ;;
-            *(tar.gz|tgz))
-                DECOMP_CMD="tar -xvzf -"
-                USES_STDIN=true
-                USES_STDOUT=false
-                ;;
-            *(tar.xz|txz|tar.lzma))
-                DECOMP_CMD="tar -xvJf -"
-                USES_STDIN=true
-                USES_STDOUT=false
-                ;;
-            *tar)
-                DECOMP_CMD="tar -xvf -"
-                USES_STDIN=true
-                USES_STDOUT=false
-                ;;
-            *rar)
-                DECOMP_CMD="unrar x"
-                USES_STDIN=false
-                USES_STDOUT=false
-                ;;
-            *lzh)
-                DECOMP_CMD="lha x"
-                USES_STDIN=false
-                USES_STDOUT=false
-                ;;
-            *7z)
-                DECOMP_CMD="7z x"
-                USES_STDIN=false
-                USES_STDOUT=false
-                ;;
-            *(zip|jar))
-                DECOMP_CMD="unzip"
-                USES_STDIN=false
-                USES_STDOUT=false
-                ;;
-            *deb)
-                DECOMP_CMD="ar -x"
-                USES_STDIN=false
-                USES_STDOUT=false
-                ;;
-            *bz2)
-                DECOMP_CMD="bzip2 -d -c -"
-                USES_STDIN=true
-                USES_STDOUT=true
-                ;;
-            *(gz|Z))
-                DECOMP_CMD="gzip -d -c -"
-                USES_STDIN=true
-                USES_STDOUT=true
-                ;;
-            *(xz|lzma))
-                DECOMP_CMD="xz -d -c -"
-                USES_STDIN=true
-                USES_STDOUT=true
-                ;;
-            *)
-                print "ERROR: '$ARCHIVE' has unrecognized archive type." >&2
-                RC=$((RC+1))
-                continue
-                ;;
-        esac
-
-        if ! check_com ${DECOMP_CMD[(w)1]}; then
-            echo "ERROR: ${DECOMP_CMD[(w)1]} not installed." >&2
-            RC=$((RC+2))
-            continue
-        fi
-
-        GZTARGET="${ARCHIVE:t:r}"
-        if [[ -f $ARCHIVE ]] ; then
-
-            print "Extracting '$ARCHIVE' ..."
-            if $USES_STDIN; then
-                if $USES_STDOUT; then
-                    ${=DECOMP_CMD} < "$ARCHIVE" > $GZTARGET
-                else
-                    ${=DECOMP_CMD} < "$ARCHIVE"
-                fi
-            else
-                if $USES_STDOUT; then
-                    ${=DECOMP_CMD} "$ARCHIVE" > $GZTARGET
-                else
-                    ${=DECOMP_CMD} "$ARCHIVE"
-                fi
-            fi
-            [[ $? -eq 0 && -n "$DELETE_ORIGINAL" ]] && rm -f "$ARCHIVE"
-
-        elif [[ "$ARCHIVE" == (#s)(https|http|ftp)://* ]] ; then
-            if check_com curl; then
-                WGET_CMD="curl -L -k -s -o -"
-            elif check_com wget; then
-                WGET_CMD="wget -q -O - --no-check-certificate"
-            else
-                print "ERROR: neither wget nor curl is installed" >&2
-                RC=$((RC+4))
-                continue
-            fi
-            print "Downloading and Extracting '$ARCHIVE' ..."
-            if $USES_STDIN; then
-                if $USES_STDOUT; then
-                    ${=WGET_CMD} "$ARCHIVE" | ${=DECOMP_CMD} > $GZTARGET
-                    RC=$((RC+$?))
-                else
-                    ${=WGET_CMD} "$ARCHIVE" | ${=DECOMP_CMD}
-                    RC=$((RC+$?))
-                fi
-            else
-                if $USES_STDOUT; then
-                    ${=DECOMP_CMD} =(${=WGET_CMD} "$ARCHIVE") > $GZTARGET
-                else
-                    ${=DECOMP_CMD} =(${=WGET_CMD} "$ARCHIVE")
-                fi
-            fi
-
-        else
-            print "ERROR: '$ARCHIVE' is neither a valid file nor a supported URI." >&2
-            RC=$((RC+8))
-        fi
-    done
-    return $RC
-}
-
-__archive_or_uri()
-{
-    _alternative \
-        'files:Archives:_files -g "*.(#l)(tar.bz2|tbz2|tbz|tar.gz|tgz|tar.xz|txz|tar.lzma|tar|rar|lzh|7z|zip|jar|deb|bz2|gz|Z|xz|lzma)"' \
-        '_urls:Remote Archives:_urls'
-}
-
-_simple_extract()
-{
-    _arguments \
-        '-d[delete original archivefile after extraction]' \
-        '*:Archive Or Uri:__archive_or_uri'
-}
-compdef _simple_extract simple-extract
-alias se=simple-extract
-
 #f5# Set all ulimit parameters to \kbd{unlimited}
 allulimit() {
     ulimit -c unlimited
@@ -3154,51 +2131,6 @@ xtrename() {
     fi
     print -n "\eP\e]0;${1}\C-G\e\\"
     return 0
-}
-
-# Create small urls via http://goo.gl using curl(1).
-# API reference: https://code.google.com/apis/urlshortener/
-function zurl() {
-    emulate -L zsh
-    setopt extended_glob
-
-    if [[ -z $1 ]]; then
-        print "USAGE: zurl <URL>"
-        return 1
-    fi
-
-    local PN url prog api json contenttype item
-    local -a data
-    PN=$0
-    url=$1
-
-    # Prepend 'http://' to given URL where necessary for later output.
-    if [[ ${url} != http(s|)://* ]]; then
-        url='http://'${url}
-    fi
-
-    if check_com -c curl; then
-        prog=curl
-    else
-        print "curl is not available, but mandatory for ${PN}. Aborting."
-        return 1
-    fi
-    api='https://www.googleapis.com/urlshortener/v1/url'
-    contenttype="Content-Type: application/json"
-    json="{\"longUrl\": \"${url}\"}"
-    data=(${(f)"$($prog --silent -H ${contenttype} -d ${json} $api)"})
-    # Parse the response
-    for item in "${data[@]}"; do
-        case "$item" in
-            ' '#'"id":'*)
-                item=${item#*: \"}
-                item=${item%\",*}
-                printf '%s\n' "$item"
-                return 0
-                ;;
-        esac
-    done
-    return 1
 }
 
 #f2# Find history events by search pattern and list them by date.
@@ -3248,34 +2180,6 @@ whatwhen()  {
         ;;
     esac
 }
-
-# mercurial related stuff
-if check_com -c hg ; then
-    # gnu like diff for mercurial
-    # http://www.selenic.com/mercurial/wiki/index.cgi/TipsAndTricks
-    #f5# GNU like diff for mercurial
-    hgdi() {
-        emulate -L zsh
-        for i in $(hg status -marn "$@") ; diff -ubwd <(hg cat "$i") "$i"
-    }
-
-    # build debian package
-    #a2# Alias for \kbd{hg-buildpackage}
-    alias hbp='hg-buildpackage'
-
-    # execute commands on the versioned patch-queue from the current repos
-    alias mq='hg -R $(readlink -f $(hg root)/.hg/patches)'
-
-    # diffstat for specific version of a mercurial repository
-    #   hgstat      => display diffstat between last revision and tip
-    #   hgstat 1234 => display diffstat between revision 1234 and tip
-    #f5# Diffstat for specific version of a mercurial repos
-    hgstat() {
-        emulate -L zsh
-        [[ -n "$1" ]] && hg diff -r $1 -r tip | diffstat || hg export tip | diffstat
-    }
-
-fi # end of check whether we have the 'hg'-executable
 
 # grml-small cleanups
 
@@ -3411,57 +2315,40 @@ function light {
     fi
 }
 
-# Uncomment if you use bash, comment for zsh
-# export -f p
 
-
-export PATH=/home/soeren/torch/install/bin:$PATH  # Added automatically by torch-dist
-export LD_LIBRARY_PATH=/home/soeren/torch/install/lib:$LD_LIBRARY_PATH  # Added automatically by torch-dist
-export DYLD_LIBRARY_PATH=/home/soeren/torch/install/lib:$DYLD_LIBRARY_PATH  # Added automatically by torch-dist
-export ANDROID_HOME=/home/soeren/Android/Sdk
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-
-# added by travis gem
-[ -f /home/soeren/.travis/travis.sh ] && source /home/soeren/.travis/travis.sh
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/home/soeren/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/home/soeren/anaconda3/etc/profile.d/conda.sh" ]; then
-#         . "/home/soeren/anaconda3/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/home/soeren/anaconda3/bin:$PATH"
-#     fi
-# fi
-# unset __conda_setup
-# <<< conda initialize <<<
-
-# ctrl s should be fwd search ("reverse" of ctrl r)
-# https://stackoverflow.com/a/791800
-stty -ixon
 
 export ANSIBLE_NOCOWS=1
 # This is useful if we want to intercept by pythons requests library
 # https://github.com/mitmproxy/mitmproxy/issues/2547#issuecomment-399778481
 export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# nvm slows the startup of zsh down. Lazy load it instead
+# https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs?utm_source=share&utm_medium=web2x&context=3
 
+declare -a NODE_GLOBALS=(`find ~/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+
+NODE_GLOBALS+=("node")
+NODE_GLOBALS+=("nvm")
+
+load_nvm () {
+    export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+for cmd in "${NODE_GLOBALS[@]}"; do
+    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
+done
+
+# init pyenv
 
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-source ~/dotfiles/powerlevel-fonts/*.sh
+# eval "$(pyenv virtualenv-init -)"
 
 POWERLEVEL9K_MODE='awesome-fontconfig'
 
-source ~/dotfiles/powerlevel9k/powerlevel9k.zsh-theme
+source ~/dotfiles/powerlevel10k/powerlevel10k.zsh-theme
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable rbenv anaconda vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
@@ -3483,7 +2370,7 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='252'
 
 POWERLEVEL9K_STATUS_OK_BACKGROUND='235'
 #POWERLEVEL9K_STATUS_OK_FOREGROUND='252'
-source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /home/soeren/.local/bin/terraform terraform
