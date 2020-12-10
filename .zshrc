@@ -2348,7 +2348,7 @@ eval "$(pyenv init -)"
 
 POWERLEVEL9K_MODE='awesome-fontconfig'
 
-source ~/dotfiles/powerlevel10k/powerlevel10k.zsh-theme
+source $HOME/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable rbenv anaconda vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
@@ -2371,6 +2371,8 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='252'
 POWERLEVEL9K_STATUS_OK_BACKGROUND='235'
 #POWERLEVEL9K_STATUS_OK_FOREGROUND='252'
 #source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /home/soeren/.local/bin/terraform terraform
