@@ -2249,7 +2249,7 @@ alias mpvt="mpv --osd-fractions --osd-level=2"
 # OPAM configuration
 . /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-OATH_KEY_HOME=/home/soeren/.oath_keys/
+OATH_KEY_HOME=$HOME/.oath_keys/
 
 function otp {
   if [ -f $OATH_KEY_HOME/$1 ]
@@ -2374,3 +2374,4 @@ POWERLEVEL9K_STATUS_OK_BACKGROUND='235'
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /home/soeren/.local/bin/terraform terraform
+
