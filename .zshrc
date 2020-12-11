@@ -2325,7 +2325,9 @@ export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
 # nvm slows the startup of zsh down. Lazy load it instead
 # https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs?utm_source=share&utm_medium=web2x&context=3
 
-declare -a NODE_GLOBALS=(`find ~/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+if [[ -d $HOME/.nvm/versions ]]; then
+    declare -a NODE_GLOBALS=(`find $HOME/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
+fi
 
 NODE_GLOBALS+=("node")
 NODE_GLOBALS+=("nvm")
