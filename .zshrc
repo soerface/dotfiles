@@ -2245,6 +2245,7 @@ alias open=xdg-open
 alias clip="xclip -selection clipboard"
 alias qr="qrencode -t ansiutf8"
 alias mpvt="mpv --osd-fractions --osd-level=2"
+alias soma="mpv --playlist=$HOME/.zsh/somafm-groovesalad.pls"
 
 # OPAM configuration
 . /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
