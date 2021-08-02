@@ -2316,7 +2316,9 @@ function light {
     fi
 }
 
-
+alias dp_full="xrandr --output DisplayPort-1 --mode 3440x1440 --output eDP --pos 3440x360"
+alias dp_wide="xrandr --output DisplayPort-1 --mode 2560x1440 --output eDP --pos 2560x360"
+alias dp_narrow="xrandr --output DisplayPort-1 --mode 1720x1440 --output eDP --pos 1720x360"
 
 export ANSIBLE_NOCOWS=1
 # This is useful if we want to intercept by pythons requests library
