@@ -2320,6 +2320,16 @@ alias dp_full="xrandr --output DisplayPort-1 --mode 3440x1440 --output eDP --pos
 alias dp_wide="xrandr --output DisplayPort-1 --mode 2560x1440 --output eDP --pos 2560x360"
 alias dp_narrow="xrandr --output DisplayPort-1 --mode 1720x1440 --output eDP --pos 1720x360"
 
+function add_vscreens {
+    xrandr --setmonitor share_1440 2560/2560x1440/0+880+0 none
+    xrandr --setmonitor share_fhd 1920/1920x1080/0+1520+360 none
+}
+
+function del_vscreens {
+    xrandr --delmonitor share_1440
+    xrandr --delmonitor share_fhd
+}
+
 export ANSIBLE_NOCOWS=1
 # This is useful if we want to intercept by pythons requests library
 # https://github.com/mitmproxy/mitmproxy/issues/2547#issuecomment-399778481
