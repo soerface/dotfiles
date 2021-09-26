@@ -2321,13 +2321,21 @@ alias dp_wide="xrandr --output DisplayPort-1 --mode 2560x1440 --output eDP --pos
 alias dp_narrow="xrandr --output DisplayPort-1 --mode 1720x1440 --output eDP --pos 1720x360"
 
 function add_vscreens {
-    xrandr --setmonitor share_1440 2560/2560x1440/0+880+0 none
-    xrandr --setmonitor share_fhd 1920/1920x1080/0+1520+360 none
+    xrandr --setmonitor 0_2560_1440 2560/2560x1440/0+880+0 none
+    xrandr --setmonitor 1_1920_1080 1920/1920x1080/0+1520+360 none
 }
 
 function del_vscreens {
-    xrandr --delmonitor share_1440
-    xrandr --delmonitor share_fhd
+    xrandr --delmonitor 0_2560_1440
+    xrandr --delmonitor 1_1920_1080
+}
+
+function scanned_pdf {
+    # https://github.com/baicunko/scanyourpdf/blob/master/scanned_pdf.sh
+    INPUT_FILE=$1
+    convert -density 150 ${INPUT_FILE} -colorspace gray -linear-stretch 3.5%x10% -blur 0x0.5 -attenuate 0.25 +noise Gaussian  -rotate 1.0 /tmp/aux_output.pdf
+    gs -dSAFER -dBATCH -dNOPAUSE -dNOCACHE -sDEVICE=pdfwrite -sColorConversionStrategy=LeaveColorUnchanged -dAutoFilterColorImages=true -dAutoFilterGrayImages=true -dDownsampleMonoImages=true -dDownsampleGrayImages=true -dDownsampleColorImages=true -sOutputFile=${INPUT_FILE}_scanned.pdf /tmp/aux_output.pdf
+    rm /tmp/aux_output.pdf
 }
 
 export ANSIBLE_NOCOWS=1
