@@ -2245,7 +2245,6 @@ alias open=xdg-open
 alias clip="xclip -selection clipboard"
 alias qr="qrencode -t ansiutf8"
 alias mpvt="mpv --osd-fractions --osd-level=2"
-alias soma="mpv --playlist=$HOME/.zsh/somafm-groovesalad.pls"
 
 # OPAM configuration
 . /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
@@ -2336,6 +2335,12 @@ function scanned_pdf {
     convert -density 150 ${INPUT_FILE} -colorspace gray -linear-stretch 3.5%x10% -blur 0x0.5 -attenuate 0.25 +noise Gaussian  -rotate 1.0 /tmp/aux_output.pdf
     gs -dSAFER -dBATCH -dNOPAUSE -dNOCACHE -sDEVICE=pdfwrite -sColorConversionStrategy=LeaveColorUnchanged -dAutoFilterColorImages=true -dAutoFilterGrayImages=true -dDownsampleMonoImages=true -dDownsampleGrayImages=true -dDownsampleColorImages=true -sOutputFile=${INPUT_FILE}_scanned.pdf /tmp/aux_output.pdf
     rm /tmp/aux_output.pdf
+}
+
+function soma {
+    radio="${1:-groovesalad}"
+    server="ice2" # available: ice1, ice2, ice4, ice6
+    mpv https://$server.somafm.com/$radio-256-mp3
 }
 
 export ANSIBLE_NOCOWS=1
