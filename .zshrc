@@ -2384,6 +2384,8 @@ export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
 
+PATH="$PATH:/$HOME/.local/bin"
+
 POWERLEVEL9K_MODE='awesome-fontconfig'
 
 source $HOME/.zsh/powerlevel10k/powerlevel10k.zsh-theme
