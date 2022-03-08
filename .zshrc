@@ -2297,7 +2297,7 @@ function dark {
             gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y-Dark'
             gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
             gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y-Dark'
-            gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
+            # gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
         else
             # XFCE
             xfconf-query -c xsettings -p /Net/ThemeName -s "Mint-Y-Dark"
@@ -2314,7 +2314,7 @@ function light {
             gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
             gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y'
             gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y'
-            gsettings set org.cinnamon.theme name 'Mint-Y'
+            # gsettings set org.cinnamon.theme name 'Mint-Y'
         else
             # XFCE
             xfconf-query -c xsettings -p /Net/ThemeName -s "Mint-Y"
