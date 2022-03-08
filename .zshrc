@@ -2385,6 +2385,7 @@ eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
 
 PATH="$PATH:/$HOME/.local/bin"
+DOCKER_BUILDKIT=1
 
 POWERLEVEL9K_MODE='awesome-fontconfig'
 
