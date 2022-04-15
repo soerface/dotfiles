@@ -8,6 +8,7 @@
 ################################################################################
 
 export TERM="xterm-256color"
+export GPG_TTY=$TTY
 
 # zsh profiling
 # just execute 'ZSH_PROFILE_RC=1 zsh' and run 'zprof' to get the details
@@ -2380,7 +2381,7 @@ done
 
 # init pyenv
 
-export PATH="$HOME/.pyenv/bin:$PATH"
+export PATH="$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH"
 eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
 
