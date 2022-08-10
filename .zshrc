@@ -2298,7 +2298,7 @@ function dark {
             gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y-Dark'
             gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
             gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y-Dark'
-            # gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
+            gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
         else
             # XFCE
             xfconf-query -c xsettings -p /Net/ThemeName -s "Mint-Y-Dark"
@@ -2315,6 +2315,7 @@ function light {
             gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
             gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y'
             gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y'
+            # Light navbar doesnt look good, keep it dark
             # gsettings set org.cinnamon.theme name 'Mint-Y'
         else
             # XFCE
@@ -2332,12 +2333,12 @@ alias dp_narrow="xrandr --output DisplayPort-1 --mode 1720x1440 --output eDP --p
 
 function add_vscreens {
     xrandr --setmonitor 0_2560_1440 2560/2560x1440/0+880+0 none
-    xrandr --setmonitor 1_1920_1080 1920/1920x1080/0+1520+360 none
+    xrandr --setmonitor 1_1920_1440 1920/1920x1440/0+1520+0 none
 }
 
 function del_vscreens {
     xrandr --delmonitor 0_2560_1440
-    xrandr --delmonitor 1_1920_1080
+    xrandr --delmonitor 1_1920_1440
 }
 
 function scanned_pdf {
@@ -2349,9 +2350,18 @@ function scanned_pdf {
 }
 
 function soma {
-    radio="${1:-groovesalad}"
-    server="ice2" # available: ice1, ice2, ice4, ice6
-    mpv https://$server.somafm.com/$radio-256-mp3
+    if [ -z ${1+x} ]; then
+        radio=$(shuf -n 1 $HOME/dotfiles/soma-radios);
+    else
+        radio="${1}"
+    fi
+    url="https://somafm.com/$radio.pls"
+    url256="https://somafm.com/${radio}256.pls"
+    if curl --head --silent --fail $url256 > /dev/null 2>&1; then
+        mpv $url256
+    else
+        mpv $url
+    fi
 }
 
 export ANSIBLE_NOCOWS=1
