@@ -1988,6 +1988,7 @@ alias insecssh='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/nu
 alias insecscp='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
 
 alias ipy='ipython3'
+alias pls='plz'
 
 # work around non utf8 capable software in utf environment via $LANG and luit
 if check_com isutfenv && check_com luit ; then
@@ -2366,6 +2367,18 @@ function soma {
     else
         mpv $url
     fi
+}
+
+function space {
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/hofseite/decke_1/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/hofseite/decke_2/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/hofseite/decke_3/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/elektroecke/decke_1/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/elektroecke/decke_2/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/elektroecke/decke_3/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/mitte/decke_1/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/mitte/decke_2/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
+    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/mitte/decke_3/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
 }
 
 export ANSIBLE_NOCOWS=1
