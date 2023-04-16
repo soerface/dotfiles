@@ -1582,7 +1582,6 @@ else
 fi
 
 alias mdstat='cat /proc/mdstat'
-alias ...='cd ../../'
 weather() {
     wget -O - http://wttr.in/"${1}" \
   | head -n38 \
@@ -1978,18 +1977,6 @@ alias lsnewdir="ls -rthdl *(/om[1,10]) .*(D/om[1,10])"
 #a2# Display the ten oldest directories and ten oldest .directories
 alias lsolddir="ls -rthdl *(/Om[1,10]) .*(D/Om[1,10])"
 
-# some useful aliases
-#a2# Remove current empty directory. Execute \kbd{cd ..; rmdir \$OLDCWD}
-alias rmcdir='cd ..; rmdir $OLDPWD || cd $OLDPWD'
-
-#a2# ssh with StrictHostKeyChecking=no \\&\quad and UserKnownHostsFile unset
-alias insecssh='ssh -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
-#a2# scp with StrictHostKeyChecking=no \\&\quad and UserKnownHostsFile unset
-alias insecscp='scp -o "StrictHostKeyChecking=no" -o "UserKnownHostsFile=/dev/null"'
-
-alias ipy='ipython3'
-alias pls='plz'
-
 # work around non utf8 capable software in utf environment via $LANG and luit
 if check_com isutfenv && check_com luit ; then
     if check_com -c mrxvt ; then
@@ -2240,208 +2227,26 @@ coin() {
 # End:
 # source /etc/bash_completion.d/virtualenvwrapper
 
-export PATH="/usr/local/heroku/bin:$HOME/dotfiles/bin:$PATH"
 
-
-alias open=xdg-open
-alias clip="xclip -selection clipboard"
-alias qr="qrencode -t ansiutf8"
-alias mpvt="mpv --osd-fractions --osd-level=2"
 
 # OPAM configuration
 . /home/soeren/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-OATH_KEY_HOME=$HOME/.oath_keys/
-
-function otp {
-  if [ -f $OATH_KEY_HOME/$1 ]
-    then
-      CODE=$(oathtool --totp -b -d 6 `cat $OATH_KEY_HOME/$1`)
-      echo "$CODE" | clip
-  else
-    echo "No key specified, or key not found."
-    echo "Available keys:"
-    ls $OATH_KEY_HOME
-  fi
-}
-
-function jecho {
-    # differentiate between argument and piped input
-    # https://unix.stackexchange.com/a/301432
-    if (( $# == 0 )) ; then
-        json=$(python -mjson.tool < /dev/stdin)
-    else
-        json=$(python -mjson.tool "$1")
-    fi
-    echo "$json" | pygmentize -l json
-}
-
-function jless {
-    jecho $1 | less -Nr
-}
-
-function wikidata {
-    curl -SsL https://wikidata.org/entity/$1.json | jless
-}
-
-function opacity {
-    if [ -z $1 ]
-    then
-        echo "Please pass a percentage"
-    else
-        sh -c "xprop -f _NET_WM_WINDOW_OPACITY 32c -set _NET_WM_WINDOW_OPACITY $(printf 0x%x $((0xffffffff * $1 / 100)))"
-    fi
-}
-
-function dark {
-    if lsb_release -i | grep -q 'Linuxmint'; then
-        if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-            gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y-Dark'
-            gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
-            gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y-Dark'
-            gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
-        else
-            # XFCE
-            xfconf-query -c xsettings -p /Net/ThemeName -s "Mint-Y-Dark"
-        fi
-    fi
-    if lsb_release -i | grep -q 'Ubuntu'; then
-        gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
-    fi
-}
-
-function light {
-    if lsb_release -i | grep -q 'Linuxmint'; then
-        if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
-            gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y'
-            gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y'
-            gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y'
-            # Light navbar doesnt look good, keep it dark
-            # gsettings set org.cinnamon.theme name 'Mint-Y'
-        else
-            # XFCE
-            xfconf-query -c xsettings -p /Net/ThemeName -s "Mint-Y"
-        fi
-    fi
-    if lsb_release -i | grep -q 'Ubuntu'; then
-        gsettings set org.gnome.desktop.interface gtk-theme 'Yaru'
-    fi
-}
 
 alias dp_full="xrandr --output DisplayPort-1 --mode 3440x1440 --output eDP --pos 3440x360"
 alias dp_wide="xrandr --output DisplayPort-1 --mode 2560x1440 --output eDP --pos 2560x360"
 alias dp_narrow="xrandr --output DisplayPort-1 --mode 1720x1440 --output eDP --pos 1720x360"
 
-function add_vscreens {
-    xrandr --setmonitor 0_2560_1440 2560/2560x1440/0+880+0 none
-    xrandr --setmonitor 1_1920_1440 1920/1920x1440/0+1520+0 none
-}
 
-function del_vscreens {
-    xrandr --delmonitor 0_2560_1440
-    xrandr --delmonitor 1_1920_1440
-}
-
-function scanned_pdf {
-    # https://github.com/baicunko/scanyourpdf/blob/master/scanned_pdf.sh
-    INPUT_FILE=$1
-    convert -density 150 ${INPUT_FILE} -colorspace gray -linear-stretch 3.5%x10% -blur 0x0.5 -attenuate 0.25 +noise Gaussian  -rotate 1.0 /tmp/aux_output.pdf
-    gs -dSAFER -dBATCH -dNOPAUSE -dNOCACHE -sDEVICE=pdfwrite -sColorConversionStrategy=LeaveColorUnchanged -dAutoFilterColorImages=true -dAutoFilterGrayImages=true -dDownsampleMonoImages=true -dDownsampleGrayImages=true -dDownsampleColorImages=true -sOutputFile=${INPUT_FILE}_scanned.pdf /tmp/aux_output.pdf
-    rm /tmp/aux_output.pdf
-}
-
-function soma {
-    if [ -z ${1+x} ]; then
-        radio=$(shuf -n 1 $HOME/dotfiles/soma-radios);
-    else
-        radio="${1}"
-    fi
-    if [ "$radio" = "--list" ]; then
-        cat $HOME/dotfiles/soma-radios;
-        return;
-    fi;
-    url="https://somafm.com/$radio.pls"
-    url256="https://somafm.com/${radio}256.pls"
-    if curl --head --silent --fail $url256 > /dev/null 2>&1; then
-        mpv $url256
-    else
-        mpv $url
-    fi
-}
-
-function space {
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/hofseite/decke_1/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/hofseite/decke_2/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/hofseite/decke_3/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/elektroecke/decke_1/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/elektroecke/decke_2/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/elektroecke/decke_3/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/mitte/decke_1/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/mitte/decke_2/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-    mosquitto_pub -h 192.168.3.145 -t "zigbee2mqtt/mitte/decke_3/set" -m "{\"state\": \"ON\", \"brightness\": $1}"
-}
-
-export ANSIBLE_NOCOWS=1
-# This is useful if we want to intercept by pythons requests library
-# https://github.com/mitmproxy/mitmproxy/issues/2547#issuecomment-399778481
-export REQUESTS_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-
-# nvm slows the startup of zsh down. Lazy load it instead
-# https://www.reddit.com/r/node/comments/4tg5jg/lazy_load_nvm_for_faster_shell_start/d5ib9fs?utm_source=share&utm_medium=web2x&context=3
-
-if [[ -d $HOME/.nvm/versions ]]; then
-    declare -a NODE_GLOBALS=(`find $HOME/.nvm/versions/node -maxdepth 3 -type l -wholename '*/bin/*' | xargs -n1 basename | sort | uniq`)
-fi
-
-NODE_GLOBALS+=("node")
-NODE_GLOBALS+=("nvm")
-
-load_nvm () {
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-}
-
-for cmd in "${NODE_GLOBALS[@]}"; do
-    eval "${cmd}(){ unset -f ${NODE_GLOBALS}; load_nvm; ${cmd} \$@ }"
+source $HOME/.zsh/env.sh
+source $HOME/.zsh/aliases.sh
+for filename in $HOME/.zsh/functions/*; do
+    source $filename
 done
+source $HOME/.zsh/powerlevel9k.sh
 
-# init pyenv
-
-export PATH="$HOME/.pyenv/bin:$HOME/.pyenv/shims:$PATH"
 eval "$(pyenv init -)"
 # eval "$(pyenv virtualenv-init -)"
-
-PATH="$PATH:/$HOME/.local/bin"
-DOCKER_BUILDKIT=1
-
-POWERLEVEL9K_MODE='awesome-fontconfig'
-
-source $HOME/.zsh/powerlevel10k/powerlevel10k.zsh-theme
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable rbenv anaconda vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs command_execution_time)
-DEFAULT_USER=soeren
-
-POWERLEVEL9K_HOME_SUB_ICON=''
-POWERLEVEL9K_FOLDER_ICON=''
-
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='235'
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND='007'
-POWERLEVEL9K_DIR_HOME_BACKGROUND=$POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND
-POWERLEVEL9K_DIR_HOME_FOREGROUND=$POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND
-POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='159'
-
-# POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
-
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='232'
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='252'
-
-POWERLEVEL9K_STATUS_OK_BACKGROUND='235'
-#POWERLEVEL9K_STATUS_OK_FOREGROUND='252'
-#source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /home/soeren/.local/bin/terraform terraform
