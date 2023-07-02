@@ -2241,7 +2241,9 @@ alias dp_narrow="xrandr --output DisplayPort-1 --mode 1720x1440 --output eDP --p
 source $HOME/.zsh/env.sh
 source $HOME/.zsh/aliases.sh
 for filename in $HOME/.zsh/functions/*; do
-    source $filename
+    if [[ $filename != *disabled ]] {
+        source $filename
+    }
 done
 source $HOME/.zsh/powerlevel9k.sh
 
