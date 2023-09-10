@@ -1291,7 +1291,7 @@ bind2maps emacs viins       -- -s '^x1' jump_after_first_word
 bind2maps emacs viins       -- -s "^x^x" hist-complete
 
 # insert unicode character
-# usage example: 'ctrl-x i' 00A7 'ctrl-x i' will give you an §
+# usage example: 'ctrl-x i' 00A7 'ctrl-x i' will give you an ï¿½
 # See for example http://unicode.org/charts/ for unicode characters code
 #k# Insert Unicode character
 bind2maps emacs viins       -- -s '^xi' insert-unicode-char
@@ -2253,3 +2253,6 @@ eval "$(pyenv init -)"
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /home/soeren/.local/bin/terraform terraform
 
+if [ -f "$HOME/.cargo/env" ]; then
+    source $HOME/.cargo/env
+fi
