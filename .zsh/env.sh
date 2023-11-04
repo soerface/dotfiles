@@ -9,7 +9,9 @@ $HOME/.pyenv/shims:
 /usr/local/heroku/bin:
 $HOME/dotfiles/bin:
 $PATH:
-$HOME/.local/bin
+$HOME/.local/bin:
+$HOME/zig:
 EOF
 )
+PATH="${PATH//[$'\n']/}"
 export DOCKER_BUILDKIT=1
