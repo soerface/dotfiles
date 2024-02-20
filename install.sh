@@ -5,8 +5,8 @@ read -p "Install zsh (needs root)? [yN] " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    echo "$ sudo apt-get install -y zsh oathtool xclip"
-    sudo apt-get install -y zsh oathtool xclip
+    echo "$ sudo apt-get install -y zsh oathtool xclip fzf"
+    sudo apt-get install -y zsh oathtool xclip fzf
 fi
 
 read -p "Set zsh as default shell? [yN] " -n 1 -r
