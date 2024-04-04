@@ -3,7 +3,7 @@ function dark {
         if [[ "$XDG_CURRENT_DESKTOP" == "X-Cinnamon" ]]; then
             gsettings set org.cinnamon.desktop.wm.preferences theme 'Mint-Y-Dark'
             gsettings set org.cinnamon.desktop.interface gtk-theme 'Mint-Y-Dark'
-            gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y-Dark'
+            gsettings set org.cinnamon.desktop.interface icon-theme 'Mint-Y'
             gsettings set org.cinnamon.theme name 'Mint-Y-Dark'
         else
             # XFCE
