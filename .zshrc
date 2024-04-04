@@ -2259,3 +2259,6 @@ fi
 
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
+
+# useful to run binaries in js projects
+export PATH="$PATH:./node_modules/.bin"
