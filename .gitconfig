@@ -13,6 +13,7 @@
 [core]
 	autocrlf = input
 	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
 [branch]
 	autosetuprebase = always
 [filter "lfs"]

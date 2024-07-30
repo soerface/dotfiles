@@ -1,0 +1,16 @@
+# This is my global .gitattributes file, not just for this dotfiles repo.
+#
+# https://tekin.co.uk/2020/10/better-git-diff-output-for-ruby-python-elixir-and-more
+# https://nerderati.com/tracing-the-evolution-of-a-python-function-with-git-log/
+*.py    diff=python
+*.rs    diff=rust
+*.css   diff=css
+*.html  diff=html
+*.md    diff=markdown
+*.tex   diff=tex
+*.sh    diff=bash
+*.cpp   diff=cpp
+*.cs    diff=csharp
+*.go    diff=golang
+*.php   diff=php
+*.java  diff=java
