@@ -1,0 +1,8 @@
+# Switch focused app's audio to HDMI
+"bash $HOME/dotfiles/switch_audio.sh HDMI"
+    XF86Launch6
+
+# Switch focused app's audio to Built-in
+"bash $HOME/dotfiles/switch_audio.sh BuiltIn"
+    XF86Launch7
+

@@ -37,6 +37,7 @@ then
     ln -fs `pwd`/.zshrc $HOME/.zshrc
     ln -fs `pwd`/.gitconfig $HOME/.gitconfig
     ln -fs `pwd`/.gitattributes $HOME/.gitattributes
+    ln -fs `pwd`/.xbindkeysrc $HOME/.xbindkeysrc
     ln -fsn `pwd`/.zsh $HOME/.zsh
     mkdir -p $HOME/.local/share/fonts/
     ln -fs `pwd`/powerlevel-fonts/*.ttf $HOME/.local/share/fonts/
