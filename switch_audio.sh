@@ -29,6 +29,7 @@ while read -r line; do
     INPUT_PID=$(pactl list sink-inputs | grep -A20 "Sink Input #$INPUT_ID" | grep -m1 'application.process.id' | awk -F'"' '{print $2}')
     
     if [ "$INPUT_PID" = "$FOCUSED_PID" ]; then
+        pactl set-default-sink $TARGET_SINK
         pactl move-sink-input $INPUT_ID $TARGET_SINK
     fi
 done <<< "$SINK_INPUTS"
