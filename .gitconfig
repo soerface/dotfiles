@@ -1,5 +1,6 @@
 [push]
-	default = matching
+	default = simple
+	autoSetupRemote = true
 [color]
 	ui = true
 [user]
@@ -16,6 +17,7 @@
 	attributesfile = ~/.gitattributes
 [branch]
 	autosetuprebase = always
+	sort = -committerdate
 [filter "lfs"]
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
@@ -29,3 +31,19 @@
     rebase = true
 [init]
 	defaultBranch = main
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[column]
+	ui = auto
+[tag]
+	sort = version:refname
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+[rerere]
+	enabled = true
+	autoupdate = true
